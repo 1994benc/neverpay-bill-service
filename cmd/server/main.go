@@ -1,11 +1,13 @@
 package main
 
 import (
+	"1994benc/neverpay-api/internal/bill"
 	"1994benc/neverpay-api/internal/database"
 	transportHTTP "1994benc/neverpay-api/internal/transport/http"
 	"log"
 	"net/http"
 
+	"github.com/jinzhu/gorm"
 	"github.com/joho/godotenv"
 )
 
@@ -15,11 +17,17 @@ type App struct{}
 func (app *App) Run() error {
 	log.Println("Running the server")
 	var err error
-	_, err = database.New()
+	var db *gorm.DB
+	db, err = database.New()
 	if err != nil {
 		log.Fatalf("Error connecting to the database: %s", err)
 	}
-	handler := transportHTTP.New()
+	err = database.MigrateDB(db)
+	if err != nil {
+		log.Fatalf("Error migrating DB: %s", err)
+	}
+	billService := bill.New(db)
+	handler := transportHTTP.New(billService)
 	handler.SetupRoutes()
 	err = http.ListenAndServe(":8080", handler.Router)
 	return err

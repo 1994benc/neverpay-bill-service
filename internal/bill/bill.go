@@ -62,6 +62,6 @@ func (s *Service) DeleteBill(ID uint) error {
 
 func (s *Service) GetAllBills() ([]Bill, error) {
 	var bills []Bill
-	result := s.DB.Find(bills)
+	result := s.DB.Find(&bills)
 	return bills, result.Error
 }
