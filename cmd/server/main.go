@@ -8,7 +8,6 @@ import (
 	"net/http"
 
 	"github.com/jinzhu/gorm"
-	"github.com/joho/godotenv"
 )
 
 type App struct{}
@@ -31,13 +30,6 @@ func (app *App) Run() error {
 	handler.SetupRoutes()
 	err = http.ListenAndServe(":8080", handler.Router)
 	return err
-}
-
-func init() {
-	// loads values from .env into the system
-	if err := godotenv.Load(); err != nil {
-		log.Print("No .env file found")
-	}
 }
 
 func main() {
