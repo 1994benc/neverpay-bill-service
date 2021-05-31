@@ -1,16 +1,8 @@
 package bill
 
-import "github.com/jinzhu/gorm"
-
-type Service struct {
-	DB *gorm.DB
-}
-
-type Bill struct {
-	gorm.Model
-	Price float64
-	Payer string
-}
+import (
+	"github.com/jinzhu/gorm"
+)
 
 type BillService interface {
 	GetBill(ID uint) (Bill, error)
@@ -19,6 +11,10 @@ type BillService interface {
 	UpdateBill(ID uint, newBill Bill) (Bill, error)
 	DeleteBill(ID uint) error
 	GetAllBills() ([]Bill, error)
+}
+
+type Service struct {
+	DB *gorm.DB
 }
 
 // Returns a new Bill service
