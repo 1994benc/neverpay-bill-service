@@ -10,6 +10,7 @@ ARG NODE_VERSION="lts/*"
 ARG NONROOT_USER=vscode
 RUN if [ "${INSTALL_NODE}" = "true" ]; then su vscode -c "umask 0002 && . /usr/local/share/nvm/nvm.sh && nvm install ${NODE_VERSION} 2>&1"; fi
 
+# https://github.com/microsoft/vscode-dev-containers/tree/main/containers/docker-from-docker
 # Install Docker CE CLI
 RUN apt-get update \
     && apt-get install -y apt-transport-https ca-certificates curl gnupg2 lsb-release \
