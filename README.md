@@ -8,7 +8,7 @@ The code structure and conventions inspired by tutorialedge.net
 ## Run the application in the development environment
 1. Optional - If you wish to use VSCode devContainer, install [the plugin first](https://code.visualstudio.com/docs/remote/create-dev-container)
 2. Optional - Re-open the project inside a devcontainer (if you open the project in VSCode with devcontainer plugin installed, you should see a pop-up asking you to open the project inside a devcontainer)
-3. Create a .env file in the root level of the project with the following environment variables. NOTE: If you are using VSCode devContainer, use ```host.docker.internal``` as your POSTGRES_HOST instad of ```localhost```
+3. Create a .env file in the root level of the project with the following environment variables. NOTE: If you are using VSCode devContainer, use ```host.docker.internal``` as your POSTGRES_HOST instead of ```localhost```
 ```
 POSTGRES_HOST=host.docker.internal
 POSTGRES_PORT=5432
