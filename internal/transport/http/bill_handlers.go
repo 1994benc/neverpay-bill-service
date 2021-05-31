@@ -4,8 +4,9 @@ import (
 	"1994benc/neverpay-api/internal/bill"
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/gorilla/mux"
 )

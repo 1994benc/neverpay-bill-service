@@ -4,17 +4,27 @@ import (
 	"1994benc/neverpay-api/internal/bill"
 	"1994benc/neverpay-api/internal/database"
 	transportHTTP "1994benc/neverpay-api/internal/transport/http"
-	"log"
 	"net/http"
 
 	"github.com/jinzhu/gorm"
+	log "github.com/sirupsen/logrus"
 )
 
-type App struct{}
+type App struct {
+	Name    string
+	Version string
+}
 
 // Run - runs our application. We set it up in a struct so that it's easy for testing
 func (app *App) Run() error {
-	log.Println("Running the server")
+	log.SetFormatter(&log.JSONFormatter{})
+	log.WithFields(
+		log.Fields{
+			"AppName":    app.Name,
+			"AppVersion": app.Version,
+		},
+	).Info("Setting up app info")
+	log.Info("Running the server")
 	var err error
 	var db *gorm.DB
 	db, err = database.New()
@@ -33,7 +43,10 @@ func (app *App) Run() error {
 }
 
 func main() {
-	app := App{}
+	app := App{
+		Name:    "Neverpay",
+		Version: "1.0.0",
+	}
 	err := app.Run()
 	if err != nil {
 		log.Fatalf("Error starting the server %s", err)
