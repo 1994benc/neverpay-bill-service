@@ -2,21 +2,21 @@ package http
 
 import (
 	"1994benc/neverpay-api/internal/bill"
+	"1994benc/neverpay-api/internal/user"
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"strconv"
 	"strings"
 
 	log "github.com/sirupsen/logrus"
 
-	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/gorilla/mux"
 )
 
 type Handler struct {
 	Router      *mux.Router
 	BillService *bill.Service
+	UserService *user.Service
 }
 
 // stores responses from API
@@ -25,29 +25,11 @@ type GenericResponse struct {
 }
 
 // Creates a new instance of Handler
-func New(service *bill.Service) *Handler {
+func New(billService *bill.Service, userService *user.Service) *Handler {
 	return &Handler{
-		BillService: service,
+		BillService: billService,
+		UserService: userService,
 	}
-}
-
-func validateToken(accessToken string) bool {
-	log.Printf("Validating access token %s", accessToken)
-	// replace this by loading in a private RSA cert for more security
-	var mySigningKey = []byte("missionimpossible")
-	token, err := jwt.Parse(accessToken, func(token *jwt.Token) (interface{}, error) {
-		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, fmt.Errorf("there was an error parsing access token")
-		}
-		return mySigningKey, nil
-	})
-
-	if err != nil {
-		log.Error(err)
-		return false
-	}
-
-	return token.Valid
 }
 
 // Logs out which endpoint has been hit
@@ -64,7 +46,8 @@ func LoggingMiddleware(next http.Handler) http.Handler {
 	})
 }
 
-func Auth(original func(w http.ResponseWriter, r *http.Request)) func(w http.ResponseWriter, r *http.Request) {
+// Protects a route with authentication
+func (h *Handler) AuthMiddleware(original func(w http.ResponseWriter, r *http.Request)) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		log.Printf("Auth endpoint is requested!")
 		authHeader := r.Header["Authorization"]
@@ -80,7 +63,8 @@ func Auth(original func(w http.ResponseWriter, r *http.Request)) func(w http.Res
 		}
 
 		token := authHeaderParts[1]
-		if validateToken(token) {
+
+		if h.UserService.ValidateToken(token) {
 			original(w, r)
 		} else {
 			w.Header().Set("Content-Type", "application/json; charset=UTF-8")
@@ -93,6 +77,8 @@ func Auth(original func(w http.ResponseWriter, r *http.Request)) func(w http.Res
 func (handler *Handler) SetupRoutes() {
 	log.Println("Setting up routes")
 	handler.Router = mux.NewRouter()
+
+	// Middlewares
 	handler.Router.Use(LoggingMiddleware)
 
 	// All routes
@@ -103,11 +89,16 @@ func (handler *Handler) SetupRoutes() {
 			panic(err)
 		}
 	})
+	// User routes
+	handler.Router.HandleFunc("/api/user/signup", handler.SignUp).Methods(http.MethodPost)
+	handler.Router.HandleFunc("/api/user/signin", handler.SignIn).Methods(http.MethodPost)
+
+	// Bill routes
 	handler.Router.HandleFunc("/api/bills/{id}", handler.GetBill).Methods(http.MethodGet)
 	handler.Router.HandleFunc("/api/bills", handler.GetAllBills).Methods(http.MethodGet)
 	handler.Router.HandleFunc("/api/bills", handler.AddBill).Methods(http.MethodPost)
-	handler.Router.HandleFunc("/api/bills/{id}", Auth(handler.DeleteBill)).Methods(http.MethodDelete)
-	handler.Router.HandleFunc("/api/bills/{id}", Auth(handler.UpdateBill)).Methods(http.MethodPut)
+	handler.Router.HandleFunc("/api/bills/{id}", handler.AuthMiddleware(handler.DeleteBill)).Methods(http.MethodDelete)
+	handler.Router.HandleFunc("/api/bills/{id}", handler.AuthMiddleware(handler.UpdateBill)).Methods(http.MethodPut)
 
 }
 

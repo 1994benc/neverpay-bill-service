@@ -29,7 +29,8 @@
 		"recode4dev.jenkinsfile",
 		"ivory-lab.jenkinsfile-support",
 		"ms-azuretools.vscode-docker",
-		"nicolasvuillamy.vscode-groovy-lint"
+		"nicolasvuillamy.vscode-groovy-lint",
+		"exodiusstudios.comment-anchors"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
