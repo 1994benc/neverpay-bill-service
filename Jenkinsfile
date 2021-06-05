@@ -14,7 +14,7 @@ pipeline {
         stage("up") {
             steps {
                 echo "Spinning up the docker containers..."
-                sh "/usr/local/bin/docker-compose up --env-file $ENV_FILE" 
+                sh "/usr/local/bin/docker-compose up -d --env-file $ENV_FILE" 
             }
         }
     }
