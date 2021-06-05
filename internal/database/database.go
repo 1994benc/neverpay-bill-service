@@ -31,7 +31,7 @@ func New() (*gorm.DB, error) {
 				log.Fatalln("Out of tries - couldn't connect to db!")
 				break
 			}
-			log.Printf("Still not connected to db - retrying...")
+			log.Printf("Still not connected to db - retrying...", err)
 			db, err = gorm.Open("postgres", connectionStr)
 			retryCount--
 			time.Sleep(2 * time.Second)
