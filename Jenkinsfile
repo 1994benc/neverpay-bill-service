@@ -4,6 +4,8 @@ pipeline {
         stage("build") {
             steps {
                 echo "Building the docker containers..."
+                sh "printenv"
+                sh "echo $PATH"
                 sh "docker-compose build" 
             }
         }
