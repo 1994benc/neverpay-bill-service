@@ -105,7 +105,7 @@ func (handler *Handler) SetupRoutes() {
 	})
 	handler.Router.HandleFunc("/api/bills/{id}", handler.GetBill).Methods(http.MethodGet)
 	handler.Router.HandleFunc("/api/bills", handler.GetAllBills).Methods(http.MethodGet)
-	handler.Router.HandleFunc("/api/bills", Auth(handler.AddBill)).Methods(http.MethodPost)
+	handler.Router.HandleFunc("/api/bills", handler.AddBill).Methods(http.MethodPost)
 	handler.Router.HandleFunc("/api/bills/{id}", Auth(handler.DeleteBill)).Methods(http.MethodDelete)
 	handler.Router.HandleFunc("/api/bills/{id}", Auth(handler.UpdateBill)).Methods(http.MethodPut)
 
