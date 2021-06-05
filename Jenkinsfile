@@ -7,7 +7,7 @@ pipeline {
         stage("build") {
             steps {
                 echo "Building the docker containers..."
-                sh '/usr/local/bin/docker-compose build'
+                sh '/usr/local/bin/docker-compose --env-file $ENV_FILE build'
             }
         }
         stage("up") {
