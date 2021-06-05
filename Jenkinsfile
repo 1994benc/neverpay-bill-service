@@ -4,13 +4,13 @@ pipeline {
         stage("build") {
             steps {
                 echo "Building the docker containers..."
-                sh "sudo docker-compose build" 
+                sh "docker-compose build" 
             }
         }
         stage("up") {
             steps {
                 echo "Spinning up the docker containers..."
-                sh "sudo docker-compose up" 
+                sh "docker-compose up" 
             }
         }
     }
