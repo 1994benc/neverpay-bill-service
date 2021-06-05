@@ -4,16 +4,10 @@ pipeline {
             ENV_FILE = credentials('env')
     }
     stages {
-        stage("build") {
-            steps {
-                echo "Building the docker containers..."
-                sh '/usr/local/bin/docker-compose --env-file $ENV_FILE build --no-cache'
-            }
-        }
-        stage("up") {
+        stage("build & up") {
             steps {
                 echo "Spinning up the docker containers..."
-                sh '/usr/local/bin/docker-compose --env-file $ENV_FILE up'
+                sh '/usr/local/bin/docker-compose --env-file $ENV_FILE up --build'
             }
         }
     }
