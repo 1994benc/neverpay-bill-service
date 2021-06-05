@@ -11,12 +11,12 @@ pipeline {
     stages {
         stage("set up environment variables") {
             steps {
-                sh 'export POSTGRES_HOST = $JPOSTGRES_HOST'
-                sh 'export POSTGRES_PORT = $JPOSTGRES_PORT'
-                sh 'export POSTGRES_DB = $JPOSTGRES_DB'
-                sh 'export POSTGRES_USER = $JPOSTGRES_USER'
-                sh 'export POSTGRES_PASSWORD = $JPOSTGRES_PASSWORD'
-                sh 'export SSL_MODE = $JSSL_MODE'
+                sh 'export POSTGRES_HOST=$JPOSTGRES_HOST'
+                sh 'export POSTGRES_PORT=$JPOSTGRES_PORT'
+                sh 'export POSTGRES_DB=$JPOSTGRES_DB'
+                sh 'export POSTGRES_USER=$JPOSTGRES_USER'
+                sh 'export POSTGRES_PASSWORD=$JPOSTGRES_PASSWORD'
+                sh 'export SSL_MODE=$JSSL_MODE'
             }
         }
         stage("build") {
