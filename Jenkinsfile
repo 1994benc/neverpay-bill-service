@@ -6,6 +6,7 @@ pipeline {
             POSTGRES_DB = credentials('POSTGRES_DB')
             POSTGRES_USER = credentials('POSTGRES_USER')
             POSTGRES_PASSWORD = credentials('POSTGRES_PASSWORD')
+            SSL_MODE = credentials('SSL_MODE')
     }
     stages {
         
