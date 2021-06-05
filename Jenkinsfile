@@ -1,9 +1,10 @@
 pipeline {
     agent any
-    stages {
-        environment {
+    environment {
             ENV_FILE = credentials('env')
-        }
+    }
+    stages {
+        
         stage("build") {
             steps {
                 echo "Building the docker containers..."
