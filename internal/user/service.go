@@ -60,7 +60,7 @@ func (s *Service) GenerateJWT(email string, role string) (string, error) {
 
 func (s *Service) ValidateToken(accessToken string) bool {
 	log.Printf("Validating access token %s", accessToken)
-	// replace this by loading in a private RSA cert for more security
+	// Replace this by loading in a private RSA cert for more security
 	var mySigningKey = []byte(secretkey)
 	token, err := jwt.Parse(accessToken, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
