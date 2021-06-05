@@ -27,7 +27,8 @@
 	"extensions": [
 		"golang.Go",
 		"recode4dev.jenkinsfile",
-		"ivory-lab.jenkinsfile-support"
+		"ivory-lab.jenkinsfile-support",
+		"ms-azuretools.vscode-docker"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
