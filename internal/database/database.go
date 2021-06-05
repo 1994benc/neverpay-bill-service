@@ -3,6 +3,7 @@ package database
 import (
 	"fmt"
 	"os"
+	"time"
 
 	log "github.com/sirupsen/logrus"
 
@@ -23,5 +24,20 @@ func New() (*gorm.DB, error) {
 	connectionStr := fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=%s", dbHost, dbPort, dbUser, dbName, dbPassword, sslMode)
 	log.Printf("Connecting to database with the following credentials: %s", connectionStr)
 	db, err := gorm.Open("postgres", connectionStr)
+	retryCount := 30
+	for {
+		if err != nil {
+			if retryCount == 0 {
+				log.Fatalln("Out of tries - couldn't connect to db!")
+				break
+			}
+			log.Printf("Still not connected to db - retrying...")
+			db, err = gorm.Open("postgres", connectionStr)
+			retryCount--
+			time.Sleep(2 * time.Second)
+		} else {
+			break
+		}
+	}
 	return db, err
 }
