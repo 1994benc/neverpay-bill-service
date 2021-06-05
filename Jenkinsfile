@@ -9,7 +9,14 @@ pipeline {
             SSL_MODE = credentials('SSL_MODE')
     }
     stages {
-        
+        stage("set up environment variables") {
+            sh 'export POSTGRES_HOST = $POSTGRES_HOST'
+            sh 'export POSTGRES_PORT = $POSTGRES_PORT'
+            sh 'export POSTGRES_DB = $POSTGRES_DB'
+            sh 'export POSTGRES_USER = $POSTGRES_USER'
+            sh 'export POSTGRES_PASSWORD = $POSTGRES_PASSWORD'
+            sh 'export SSL_MODE = $SSL_MODE'
+        }
         stage("build") {
             steps {
                 echo "Building the docker containers..."
