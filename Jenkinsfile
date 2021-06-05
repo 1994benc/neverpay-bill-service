@@ -1,16 +1,19 @@
 pipeline {
     agent any
     stages {
+        environment {
+            ENV_FILE = credentials('env')
+        }
         stage("build") {
             steps {
                 echo "Building the docker containers..."
-                sh "/usr/local/bin/docker-compose build" 
+                sh "/usr/local/bin/docker-compose build --env-file $ENV_FILE" 
             }
         }
         stage("up") {
             steps {
                 echo "Spinning up the docker containers..."
-                sh "/usr/local/bin/docker-compose up" 
+                sh "/usr/local/bin/docker-compose up --env-file $ENV_FILE" 
             }
         }
     }
