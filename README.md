@@ -20,5 +20,5 @@ AUTH_SECRET=yourauthsecretkey
 ```
 4. You should be able to run the server with the following command
 ``` 
-docker compose-up --build
+docker-compose up --build
 ```
