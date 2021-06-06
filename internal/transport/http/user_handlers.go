@@ -2,6 +2,7 @@ package http
 
 import (
 	"1994benc/neverpay-api/internal/user"
+	"encoding/json"
 	"net/http"
 
 	log "github.com/sirupsen/logrus"
@@ -29,7 +30,7 @@ func (h *Handler) SignUp(w http.ResponseWriter, r *http.Request) {
 
 	newUser, err := h.UserService.CreateUser(u)
 	if err != nil {
-		http.Error(w, "Error creating user: ", http.StatusInternalServerError)
+		http.Error(w, "Error creating user! "+err.Error(), http.StatusInternalServerError)
 		return
 	}
 
@@ -78,7 +79,21 @@ func (h *Handler) SignIn(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func (h *Handler) GetUsers(w http.ResponseWriter, r *http.Request) {
+	users, err := h.UserService.GetAllUsers()
+	if err != nil {
+		http.Error(w, "Error getting users", http.StatusInternalServerError)
+		return
+	}
+	err = json.NewEncoder(w).Encode(users)
+	if err != nil {
+		http.Error(w, "Error encoding data", http.StatusInternalServerError)
+		return
+	}
+}
+
 func (h *Handler) checkIfUserExists(userInstance user.User) bool {
 	u, err := h.UserService.FindUserByEmail(userInstance.Email)
-	return err != nil && u.Email != ""
+	log.Printf("checkIfUserExists: %s", u.Email)
+	return err == nil && u.Email != ""
 }

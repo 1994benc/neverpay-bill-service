@@ -17,13 +17,34 @@ type User struct {
 	Role     string `json:"role"`
 }
 
+type UserNoPassword struct {
+	gorm.Model
+	Name  string `json:"name"`
+	Email string `gorm:"unique" json:"email"`
+	Role  string `json:"role"`
+}
+
+func (userNoPassword *UserNoPassword) fromUser(u *User) {
+	userNoPassword.ID = u.ID
+	userNoPassword.CreatedAt = u.CreatedAt
+	userNoPassword.DeletedAt = u.DeletedAt
+	userNoPassword.Email = u.Email
+	userNoPassword.Model = u.Model
+	userNoPassword.Name = u.Name
+	userNoPassword.Role = u.Role
+	userNoPassword.UpdatedAt = u.UpdatedAt
+}
+
 func (u *User) FromJSON(body io.ReadCloser) error {
 	err := json.NewDecoder(body).Decode(u)
 	return err
 }
 
 func (u *User) ToJSON(w http.ResponseWriter) error {
-	return json.NewEncoder(w).Encode(u)
+	// Omits the password field
+	var userNoPassword UserNoPassword
+	userNoPassword.fromUser(u)
+	return json.NewEncoder(w).Encode(userNoPassword)
 }
 
 func (u *User) HashPassword() error {

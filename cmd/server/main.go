@@ -25,6 +25,7 @@ func (app *App) Run() error {
 			"AppVersion": app.Version,
 		},
 	).Info("Setting up app info")
+
 	log.Info("Running the server")
 	var err error
 	var db *gorm.DB
@@ -51,6 +52,8 @@ func main() {
 	}
 	err := app.Run()
 	if err != nil {
-		log.Fatalf("Error starting the server %s", err)
+		log.Fatalf("😢 Error starting the server %s", err)
+	} else {
+		log.Println("***** 😀 Sucessfully started the server!!! 🙌 *****")
 	}
 }
