@@ -4,7 +4,7 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-type BillService interface {
+type IService interface {
 	GetBill(ID uint) (Bill, error)
 	GetBillByPayer(payer string) (Bill, error)
 	AddBill(bill Bill) (Bill, error)
@@ -18,7 +18,7 @@ type Service struct {
 }
 
 // Returns a new Bill service
-func New(db *gorm.DB) *Service {
+func NewService(db *gorm.DB) *Service {
 	return &Service{
 		DB: db,
 	}
