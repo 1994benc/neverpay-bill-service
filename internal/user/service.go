@@ -3,14 +3,12 @@ package user
 import (
 	"fmt"
 	"log"
+	"os"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/jinzhu/gorm"
 )
-
-// TODO: remove this secret key
-const secretkey = "testsecretkeytoberemoved"
 
 type IService interface {
 	CreateUser(user User) (User, error)
@@ -29,7 +27,7 @@ func NewService(db *gorm.DB) *Service {
 }
 
 func (s *Service) CreateUser(u User) (User, error) {
-	result := s.DB.Save(u)
+	result := s.DB.Save(&u)
 	return u, result.Error
 }
 
@@ -39,8 +37,14 @@ func (s *Service) FindUserByEmail(email string) (User, error) {
 	return user, result.Error
 }
 
+func (s *Service) GetAllUsers() ([]User, error) {
+	var users []User
+	result := s.DB.Find(&users)
+	return users, result.Error
+}
+
 func (s *Service) GenerateJWT(email string, role string) (string, error) {
-	var mySigningKey = []byte(secretkey) // TODO: use a secure secretkey
+	var mySigningKey = []byte(os.Getenv("AUTH_SECRET")) // TODO: use a secure secretkey
 	token := jwt.New(jwt.SigningMethodHS256)
 	claims := token.Claims.(jwt.MapClaims)
 
@@ -61,7 +65,7 @@ func (s *Service) GenerateJWT(email string, role string) (string, error) {
 func (s *Service) ValidateToken(accessToken string) bool {
 	log.Printf("Validating access token %s", accessToken)
 	// Replace this by loading in a private RSA cert for more security
-	var mySigningKey = []byte(secretkey)
+	var mySigningKey = []byte(os.Getenv("AUTH_SECRET"))
 	token, err := jwt.Parse(accessToken, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("there was an error parsing access token")

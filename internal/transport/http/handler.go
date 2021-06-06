@@ -90,8 +90,9 @@ func (handler *Handler) SetupRoutes() {
 		}
 	})
 	// User routes
-	handler.Router.HandleFunc("/api/user/signup", handler.SignUp).Methods(http.MethodPost)
-	handler.Router.HandleFunc("/api/user/signin", handler.SignIn).Methods(http.MethodPost)
+	handler.Router.HandleFunc("/api/users", handler.GetUsers).Methods(http.MethodGet)
+	handler.Router.HandleFunc("/api/users/signup", handler.SignUp).Methods(http.MethodPost)
+	handler.Router.HandleFunc("/api/users/signin", handler.SignIn).Methods(http.MethodPost)
 
 	// Bill routes
 	handler.Router.HandleFunc("/api/bills/{id}", handler.GetBill).Methods(http.MethodGet)
