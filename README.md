@@ -1,4 +1,4 @@
-# Neverpay API Project
+# Neverpay API User Service Project
 The code structure and conventions inspired by tutorialedge.net
 
 ## Requirements to run the application in development environment
