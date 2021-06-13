@@ -1,7 +1,6 @@
 package main
 
 import (
-	"1994benc/neverpay-api/internal/bill"
 	"1994benc/neverpay-api/internal/database"
 	transportHTTP "1994benc/neverpay-api/internal/transport/http"
 	"1994benc/neverpay-api/internal/user"
@@ -37,9 +36,8 @@ func (app *App) Run() error {
 	if err != nil {
 		log.Fatalf("Error migrating DB: %s", err)
 	}
-	billService := bill.NewService(db)
 	userService := user.NewService(db)
-	handler := transportHTTP.New(billService, userService)
+	handler := transportHTTP.New(userService)
 	handler.SetupRoutes()
 	err = http.ListenAndServe(":8080", handler.Router)
 	return err
