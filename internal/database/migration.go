@@ -1,7 +1,7 @@
 package database
 
 import (
-	"1994benc/neverpay-api/internal/user"
+	"1994benc/neverpay-user-service/internal/user"
 
 	"github.com/jinzhu/gorm"
 )

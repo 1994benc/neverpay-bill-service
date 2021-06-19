@@ -1,9 +1,9 @@
 package main
 
 import (
-	"1994benc/neverpay-api/internal/database"
-	transportHTTP "1994benc/neverpay-api/internal/transport/http"
-	"1994benc/neverpay-api/internal/user"
+	"1994benc/neverpay-user-service/internal/database"
+	transportHTTP "1994benc/neverpay-user-service/internal/transport/http"
+	"1994benc/neverpay-user-service/internal/user"
 	"net/http"
 
 	"github.com/jinzhu/gorm"

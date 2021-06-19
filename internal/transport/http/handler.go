@@ -1,7 +1,7 @@
 package http
 
 import (
-	"1994benc/neverpay-api/internal/user"
+	"1994benc/neverpay-user-service/internal/user"
 	"encoding/json"
 	"net/http"
 
