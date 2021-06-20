@@ -30,7 +30,9 @@
 		"ivory-lab.jenkinsfile-support",
 		"ms-azuretools.vscode-docker",
 		"nicolasvuillamy.vscode-groovy-lint",
-		"exodiusstudios.comment-anchors"
+		"exodiusstudios.comment-anchors",
+		"mhutchie.git-graph",
+		"eamodio.gitlens"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
