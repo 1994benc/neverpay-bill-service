@@ -1,25 +1,26 @@
 package http
 
 import (
-	"1994benc/neverpay-user-service/internal/user"
 	"encoding/json"
 	"net/http"
 
 	log "github.com/sirupsen/logrus"
 
+	"github.com/1994benc/minimal-go-microservice-template/internal/transport/http/middleware"
 	"github.com/gorilla/mux"
 )
 
 type Handler struct {
-	Router      *mux.Router
-	UserService *user.Service
+	Router *mux.Router
 }
 
 // Creates a new instance of Handler
-func New(userService *user.Service) *Handler {
-	return &Handler{
-		UserService: userService,
-	}
+// TODO: pass in an instance of a service
+func New() *Handler {
+	// TODO: return &Handler{
+	// 	UserService: userService,
+	// }
+	return &Handler{}
 }
 
 // Setup all routes
@@ -28,7 +29,7 @@ func (handler *Handler) SetupRoutes() {
 	handler.Router = mux.NewRouter()
 
 	// Middlewares
-	handler.Router.Use(LoggingMiddleware)
+	handler.Router.Use(middleware.LoggingMiddleware)
 
 	// All routes
 	handler.Router.HandleFunc("/api/health", func(w http.ResponseWriter, r *http.Request) {
@@ -38,8 +39,4 @@ func (handler *Handler) SetupRoutes() {
 			panic(err)
 		}
 	})
-	// User routes
-	handler.Router.HandleFunc("/api/users", handler.GetUsers).Methods(http.MethodGet)
-	handler.Router.HandleFunc("/api/users/signup", handler.SignUp).Methods(http.MethodPost)
-	handler.Router.HandleFunc("/api/users/signin", handler.SignIn).Methods(http.MethodPost)
 }

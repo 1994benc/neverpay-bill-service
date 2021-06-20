@@ -1,10 +1,10 @@
 package main
 
 import (
-	"1994benc/neverpay-user-service/internal/database"
-	transportHTTP "1994benc/neverpay-user-service/internal/transport/http"
-	"1994benc/neverpay-user-service/internal/user"
 	"net/http"
+
+	"github.com/1994benc/minimal-go-microservice-template/internal/database"
+	transportHTTP "github.com/1994benc/minimal-go-microservice-template/internal/transport/http"
 
 	"github.com/jinzhu/gorm"
 	log "github.com/sirupsen/logrus"
@@ -36,8 +36,8 @@ func (app *App) Run() error {
 	if err != nil {
 		log.Fatalf("Error migrating DB: %s", err)
 	}
-	userService := user.NewService(db)
-	handler := transportHTTP.New(userService)
+	// TODO: userService := user.NewService(db)
+	handler := transportHTTP.New() // TODO: pass in userService like handler := transportHTTP.New(userService)
 	handler.SetupRoutes()
 	err = http.ListenAndServe(":8080", handler.Router)
 	return err
@@ -45,7 +45,7 @@ func (app *App) Run() error {
 
 func main() {
 	app := App{
-		Name:    "Neverpay",
+		Name:    "minimal-go-microservice-template",
 		Version: "1.0.0",
 	}
 	err := app.Run()
