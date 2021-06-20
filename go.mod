@@ -1,4 +1,4 @@
-module github.com/1994benc/minimal-go-microservice-template
+module github.com/1994benc/neverpay-bill-service
 
 go 1.16
 

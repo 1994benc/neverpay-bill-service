@@ -3,8 +3,8 @@ package main
 import (
 	"net/http"
 
-	"github.com/1994benc/minimal-go-microservice-template/internal/database"
-	transportHTTP "github.com/1994benc/minimal-go-microservice-template/internal/transport/http"
+	"github.com/1994benc/neverpay-bill-service/internal/database"
+	transportHTTP "github.com/1994benc/neverpay-bill-service/internal/transport/http"
 
 	"github.com/jinzhu/gorm"
 	log "github.com/sirupsen/logrus"
@@ -17,7 +17,7 @@ type App struct {
 
 func main() {
 	app := App{
-		Name:    "minimal-go-microservice-template",
+		Name:    "neverpay-bill-service",
 		Version: "1.0.0",
 	}
 	err := app.Run()

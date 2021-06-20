@@ -6,7 +6,7 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/1994benc/minimal-go-microservice-template/internal/transport/http/middleware"
+	"github.com/1994benc/neverpay-bill-service/internal/transport/http/middleware"
 	"github.com/gorilla/mux"
 )
 
