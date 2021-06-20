@@ -15,8 +15,32 @@ type App struct {
 	Version string
 }
 
+func main() {
+	app := App{
+		Name:    "minimal-go-microservice-template",
+		Version: "1.0.0",
+	}
+	err := app.Run()
+	if err != nil {
+		log.Fatalf("Error starting the server %s", err)
+		return
+	}
+}
+
 // Run - runs our application. We set it up in a struct so that it's easy for testing
 func (app *App) Run() error {
+	app.setUpLogger()
+	app.setUpDatabase()
+
+	// TODO: yourService := user.NewService(db)
+	// TODO: replace below with handler := transportHTTP.New(yourService)
+	handler := transportHTTP.New()
+	handler.SetupRoutes()
+	err := http.ListenAndServe(":8080", handler.Router)
+	return err
+}
+
+func (app *App) setUpLogger() {
 	log.SetFormatter(&log.JSONFormatter{})
 	log.WithFields(
 		log.Fields{
@@ -24,8 +48,9 @@ func (app *App) Run() error {
 			"AppVersion": app.Version,
 		},
 	).Info("Setting up app info")
+}
 
-	log.Info("Running the server")
+func (app *App) setUpDatabase() (*gorm.DB, error) {
 	var err error
 	var db *gorm.DB
 	db, err = database.New()
@@ -36,22 +61,5 @@ func (app *App) Run() error {
 	if err != nil {
 		log.Fatalf("Error migrating DB: %s", err)
 	}
-	// TODO: userService := user.NewService(db)
-	handler := transportHTTP.New() // TODO: pass in userService like handler := transportHTTP.New(userService)
-	handler.SetupRoutes()
-	err = http.ListenAndServe(":8080", handler.Router)
-	return err
-}
-
-func main() {
-	app := App{
-		Name:    "minimal-go-microservice-template",
-		Version: "1.0.0",
-	}
-	err := app.Run()
-	if err != nil {
-		log.Fatalf("😢 Error starting the server %s", err)
-	} else {
-		log.Println("***** 😀 Sucessfully started the server!!! 🙌 *****")
-	}
+	return db, err
 }
