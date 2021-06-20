@@ -37,6 +37,7 @@ func AuthMiddleware(original func(w http.ResponseWriter, r *http.Request)) func(
 	}
 }
 
+// Use /verify end point of the auth server instead
 func validateToken(accessToken string) bool {
 	log.Printf("Validating access token %s", accessToken)
 	// Replace this by loading in a private RSA cert for more security
