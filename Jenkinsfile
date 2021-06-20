@@ -1,4 +1,3 @@
-// Remove this file if not using Jenkins
 pipeline {
     agent any
     environment {

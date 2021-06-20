@@ -1,4 +1,4 @@
-# Template for creating a Go microservice with PostgreSQL + Docker
+# Neverpay Bill Service
 The code structure and conventions inspired by tutorialedge.net
 
 ## Requirements to run the application in development environment
