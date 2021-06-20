@@ -1,4 +1,4 @@
-# Neverpay API User Service Project
+# Template for creating a Go microservice with PostgreSQL + Docker
 The code structure and conventions inspired by tutorialedge.net
 
 ## Requirements to run the application in development environment
